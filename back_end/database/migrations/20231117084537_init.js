@@ -10,6 +10,7 @@ export const up = function(knex) {
         table.timestamps('true')
     }).createTable('todos',(table) => {
         table.increments('id').primary();
+        table.integer('id_user');
         table.string('todo');
         table.string('state').checkIn(['todo','doing','done'])
         table.timestamps('true')

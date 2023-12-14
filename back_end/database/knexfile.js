@@ -4,8 +4,7 @@ import dotenv from 'dotenv'
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 
-dotenv.config()
-
+dotenv.config({path : './.env'})
 export default {
   development: {
     client: process.env.CLIENT,

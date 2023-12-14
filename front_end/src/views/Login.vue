@@ -5,6 +5,7 @@
     <h1 class="w-fit text-4xl text-center px-4 py-2 border-b-4 border-[#00aaff]">Se connecter</h1>
     <BaseInputVue v-model="email" inputType="text" placeholder="votre adresse email"><i class="pi pi-user"></i></BaseInputVue>
     <BaseInputVue v-model="password" inputType="password" placeholder="votre mot de passe"><i class="pi pi-lock"></i></BaseInputVue>
+    <p>Vous n'avez pas de compte ? <a href="/register">créer votre compte</a></p>
     <Button @click="signInUser" label="Submit" />
   </div>
 </div>
@@ -17,6 +18,7 @@ import schema from '../requestValidators/loginUser.js'
 import { useToast } from 'primevue/usetoast';
 import {connectUser} from '../api/user.js'
 import {useUserStore} from '../stores/User.js'
+import { useRouter } from 'vue-router';
 
 export default {
     components : {BaseInputVue},
@@ -28,19 +30,22 @@ export default {
 
         const userStore = useUserStore()
         const toast = useToast()
+        const router = useRouter()
 
         function showError({severity,summary,detail}) {
             toast.add({severity,summary,detail})
         }
 
-        function signInUser() {
+        async function signInUser() {
             const {value,error} = schema.validate(state)
 
             if(error){
                 showError({severity : 'danger',summary : 'Erreur',detail : error.message})
             }else{
-                
-                userStore.setUser(connectUser(state))
+                const user = await connectUser(state)
+                localStorage.setItem('user',JSON.stringify(user))
+                console.log('setting user on localstorage')
+                router.push('/')
             }
 
         }
@@ -55,7 +60,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .wrapper{
     height: 100vh;
     display: flex;

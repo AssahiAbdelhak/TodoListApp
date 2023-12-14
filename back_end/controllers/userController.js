@@ -3,20 +3,17 @@ import {hash,verify} from 'argon2'
 
 export const connectUser = async (req,res) => {
     const user = await getUser({email : req.body.email})
-
+    console.log('here in connect user')
     if(verify(user.password,req.body.password)){
+        console.log('good password')
         res.send({
             succes : true,
-            data : {
-                user
-            }
+            user
         })
     }else{
         res.status(401).send({
             succes : false,
-            data : {
                 message : 'bad credentials'
-            }
         })
     }
 }
@@ -28,8 +25,6 @@ export const registerUser = async (req,res) => {
     }})
     res.send({
         succes : true,
-        data : {
             message : 'user created!!'
-        }
     })
 }

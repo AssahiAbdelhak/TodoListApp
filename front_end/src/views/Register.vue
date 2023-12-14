@@ -6,6 +6,7 @@
     <BaseInputVue v-model="email" inputType="text" placeholder="votre adresse email"><i class="pi pi-user"></i></BaseInputVue>
     <BaseInputVue v-model="password" inputType="password" placeholder="votre mot de passe"><i class="pi pi-lock"></i></BaseInputVue>
     <BaseInputVue v-model="confirmPassword" inputType="password" placeholder="confirmez votre mot de passe"><i class="pi pi-lock"></i></BaseInputVue>
+    <p>Vous avez déjà un compte ? <a href="/login">connectez-vous</a></p>
     <Button @click="registerUser" label="Submit" />
   </div>
 </div>
@@ -15,8 +16,10 @@
 import { useToast } from 'primevue/usetoast';
 import { reactive, ref, toRefs, watch } from 'vue'
 import BaseInputVue from '../components/BaseInput.vue'
-import schema from '../requestValidators/loginUser.js'
+import schema from '../requestValidators/registerUser.js'
 import {createUser} from '../api/user.js'
+import {useRouter}  from 'vue-router'
+import { useUserStore } from '../stores/User';
 export default {
     components : {BaseInputVue},
     setup(props){
@@ -26,20 +29,24 @@ export default {
             confirmPassword  :''
         })
 
+        const userStore = useUserStore()
         const toast = useToast()
+        const router = useRouter()
 
         function showError({severity,summary,detail}) {
             toast.add({severity : 'danger',summary,detail})
         }
 
-        function registerUser() {
+        async function registerUser() {
             const {value,error} = schema.validate(state)
 
             if(error){
                 showError({severity : 'warning',summary : 'Erreur',detail : error.message})
             }else{
                 delete state['confirmPassword']
-                createUser(state)
+                const user = await createUser(state)
+                localStorage.setItem('user',JSON.stringify(user))
+                router.push('/')
             }
 
         }

@@ -50,7 +50,7 @@ jobs:
       - run: npm run dev --if-present
       - run: npm test
   deploy:
-    neeeds: build
+    needs: build
     runs-on: ubuntu-latest
 
     steps:

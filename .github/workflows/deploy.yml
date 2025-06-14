@@ -73,7 +73,7 @@ jobs:
 
           # Clone if not exists, else pull latest
           if [ ! -d "$PROJECT_DIR" ]; then
-            git clone https://github.com/yourusername/your-repo.git $PROJECT_DIR
+            git clone https://github.com/AssahiAbdelhak/TodoListApp.git $PROJECT_DIR
           else
             cd $PROJECT_DIR
             git reset --hard

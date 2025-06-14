@@ -5,13 +5,19 @@ import dotenv from 'dotenv'
  */
 
 dotenv.config({path : './.env'})
+
 export default {
   development: {
     client: process.env.CLIENT,
     connection: {
+      host: process.env.DATABASE_HOST,
       database: process.env.DATABASE_NAME,
-      user:     process.env.USERNAME,
-      password: process.env.PASSWORD
+      user: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      port: process.env.DATABASE_PORT,
     },
+    migrations: {
+      directory: './database/migrations' 
+    }
   },
 };

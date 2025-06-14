@@ -2,6 +2,7 @@ import { createUser,getUser } from "../database/services/user.js"
 import {hash,verify} from 'argon2'
 
 export const connectUser = async (req,res) => {
+    console.log(req.body)
     const user = await getUser({email : req.body.email})
     console.log('here in connect user')
     if(verify(user.password,req.body.password)){
@@ -11,6 +12,7 @@ export const connectUser = async (req,res) => {
             user
         })
     }else{
+        console.log('bad password')
         res.status(401).send({
             succes : false,
                 message : 'bad credentials'

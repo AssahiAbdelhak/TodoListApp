@@ -3,6 +3,7 @@
  * @returns { Promise<void> }
  */
 export const up = function(knex) {
+    console.log('Migration 20231117084537_init.js executed successfully');
     return knex.schema.createTable('users',(table) => {
         table.increments('id').primary();
         table.string('email');
@@ -15,6 +16,7 @@ export const up = function(knex) {
         table.string('state').checkIn(['todo','doing','done'])
         table.timestamps('true')
     })
+    
 };
 
 /**

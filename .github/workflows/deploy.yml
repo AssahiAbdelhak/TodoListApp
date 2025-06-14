@@ -44,8 +44,9 @@ jobs:
       - name: Use Node.js 18.14.1
         uses: actions/setup-node@v4
         with:
-          node-version: 18.14.1
+          node-version: 18
           cache: 'npm'
+          cache-dependency-path: back_end/package-lock.json
       - run: npm ci
       - run: npm run dev --if-present
       - run: npm test

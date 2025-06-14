@@ -47,9 +47,10 @@ jobs:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: back_end/package-lock.json
-      - run: npm ci
-      - run: npm run dev --if-present
-      - run: npm test
+        working-directory: back_end
+        run: npm ci
+        run: npm run dev --if-present
+        run: npm test
   deploy:
     needs: build
     runs-on: ubuntu-latest

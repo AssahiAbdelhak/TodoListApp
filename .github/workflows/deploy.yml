@@ -79,13 +79,3 @@ jobs:
             git reset --hard
             git pull origin master
           fi
-
-          # Backend setup and restart
-          cd $PROJECT_DIR/back_end
-          npm install
-          pm2 restart index.js || pm2 start index.js --name backend
-
-          # Frontend build and serve
-          cd $PROJECT_DIR/front_end
-          npm install
-          npm run dev
